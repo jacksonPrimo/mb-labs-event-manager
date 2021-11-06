@@ -1,9 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import dotEnv from 'dotenv';
+import routes from './routes';
 dotEnv.config();
 const app = express();
 app.use('/ping', (req, res) => res.send('server running'));
 app.use(process.env.CORS_ORIGIN ? cors({ origin: process.env.CORS_ORIGIN }) : cors());
-
+app.use(routes);
 export default app;
