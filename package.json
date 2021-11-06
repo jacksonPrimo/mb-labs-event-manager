@@ -6,9 +6,10 @@
   "scripts": {
     "build": "babel src  --extensions .ts --out-dir dist --copy-files --no-copy-ignored",
     "removeMigrations": "sequelize db:migrate:undo:all",
+    "premigrate": "npm run build",
     "migrate": "sequelize db:migrate",
     "seeder": "sequelize db:seed:all",
-    "prestart": "npm run build && npm run migrate && npm run seeder",
+    "prestart": "npm run migrate",
     "start": "node dist/server.js",
     "postinstall": "tsc",
     "whatch-ts": "tsc -w",
