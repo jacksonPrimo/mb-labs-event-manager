@@ -4,4 +4,4 @@ const router = Router();
 router.get('/', userController.get);
 router.put('/', userController.update);
 
-module.exports = router;
+export default router;
