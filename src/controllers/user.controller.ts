@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-import UserRepository from '@repository/UserRepository';
+import UserRepository from 'src/repositories/user.repository';
 import { objectReturn } from '../helpers/functions';
 import ErrorReturn from 'src/helpers/errorReturn';
 import { tokenization } from 'src/helpers/tokenization';

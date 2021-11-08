@@ -1,4 +1,7 @@
-let config;
+import { Options } from 'sequelize';
+
+require('dotenv').config();
+let config: Options;
 switch (process.env.NODE_ENV) {
   case 'test':
     config = {
@@ -18,7 +21,7 @@ switch (process.env.NODE_ENV) {
       username: process.env.DBUSER,
       password: process.env.DBPASSWORD,
       database: process.env.DBNAME,
-      dialect: process.env.DBPASSWORD || 'postgres',
+      dialect: 'postgres',
       define: {
         timestamps: true
       }
@@ -35,5 +38,6 @@ switch (process.env.NODE_ENV) {
         timestamps: true
       }
     };
+    break;
 }
 module.exports = config;
