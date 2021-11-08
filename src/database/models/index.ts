@@ -1,28 +1,13 @@
-import fs from 'fs';
-import path from 'path';
-import { Options, Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize';
+import { UserModel } from './User';
 const config = require('../config');
-const sequelize = new Sequelize(config as Options);
-const basename = path.basename(__filename);
-const db: any = {};
+export const sequelize = new Sequelize(config);
+const Models: any = {};
 
-fs
-  .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === ('.js' || '.ts'));
-  })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize);
-    db[model.name] = model;
-  });
-
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+Models.User = UserModel(sequelize);
+for (const key in Models) {
+  if (Models[key].associate) {
+    Models[key].associate(Models);
   }
-});
-
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-export default db;
+}
+export default Models;

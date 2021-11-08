@@ -6,7 +6,7 @@ interface UserInstance
   extends Model<UserDto, UserCreationAttributes>,
   UserDto {}
 
-const User = (sequelize: Sequelize) => {
+export const UserModel = (sequelize: Sequelize) => {
   const user = sequelize.define<UserInstance>('Users', {
     id: {
       type: DataTypes.INTEGER,
@@ -25,11 +25,17 @@ const User = (sequelize: Sequelize) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false
     }
   }, {
     tableName: 'Users'
   });
   return user;
 };
-
-module.exports = User;
