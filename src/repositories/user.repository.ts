@@ -22,14 +22,7 @@ class UserRespository extends RepositoryValidators {
   public async findUserByEmail (email: string, message: string): Promise<UserDto> {
     const user = await Models.User.findOne({
       where: { email },
-      attributes: ['id', 'email', 'password', 'accountType', 'customerId', 'name', 'emailValidationStatus'],
-      include: [
-        {
-          model: Models.VerificationCode,
-          as: 'verificationCodes',
-          attributes: ['id', 'type', 'code']
-        }
-      ]
+      attributes: ['id', 'email', 'password', 'name']
     });
     if (!user) {
       throw new ErrorReturn(404, message, [
@@ -81,8 +74,8 @@ class UserRespository extends RepositoryValidators {
   public async update (user: UserDto, userId: number) {
     const errorMessage = 'Erro ao atualizar usuário';
     const { email, password } = user;
-    const userFinded = await this.findUserById(userId);
-    if (email && email !== userFinded.email) {
+    const userFound = await this.findUserById(userId);
+    if (email && email !== userFound.email) {
       await this.validateIfEmailAlreadyInUse(email, errorMessage);
     }
     if (password) {
