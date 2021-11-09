@@ -1,4 +1,4 @@
-import { DataTypes, Model, Optional, Sequelize } from 'sequelize';
+import { DataTypes, Model, ModelCtor, Optional, Sequelize } from 'sequelize';
 import { UserDto } from 'src/dtos/user.dto';
 
 interface UserCreationAttributes extends Optional<UserDto, 'id'> {}
@@ -36,6 +36,9 @@ export const UserModel = (sequelize: Sequelize) => {
     }
   }, {
     tableName: 'Users'
-  });
+  }) as ModelCtor<UserInstance> & { associate: any };
+  user.associate = (models: any) => {
+    user.hasMany(models.Event, { foreignKey: 'userId', as: 'events' });
+  };
   return user;
 };
