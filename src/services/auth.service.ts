@@ -1,6 +1,6 @@
 import { UserDto } from 'src/dtos/user.dto';
 import { cryptography } from 'src/helpers/cryptography';
-import ErrorReturn from 'src/helpers/errorReturn';
+import { ReturnError } from 'src/helpers/returnError';
 import { tokenization } from 'src/helpers/tokenization';
 import UserRepository from 'src/repositories/user.repository';
 
@@ -21,7 +21,7 @@ class AuthService {
     const user = await UserRepository.findUserByEmail(email, 'Erro ao logar');
     const passwordIsValid = cryptography.comparePassword(password, user.password);
     if (!passwordIsValid) {
-      throw new ErrorReturn(400, 'Erro ao logar', [
+      throw new ReturnError(400, 'Erro ao logar', [
         {
           field: 'password',
           message: 'Senha inválida!'

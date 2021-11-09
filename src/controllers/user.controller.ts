@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 import UserRepository from 'src/repositories/user.repository';
 import { objectReturn } from '../helpers/functions';
-import ErrorReturn from 'src/helpers/errorReturn';
+import { ReturnError } from 'src/helpers/returnError';
 import { tokenization } from 'src/helpers/tokenization';
 
 class UserController {
@@ -17,7 +17,7 @@ class UserController {
       return response.status(200).json(objectReturn('Usuário encontrado', user, false, 200));
     } catch (error) {
       console.log(error);
-      if (error instanceof ErrorReturn) {
+      if (error instanceof ReturnError) {
         return response.status(error.code).json(objectReturn(error.message, error.fields, true, error.code));
       } else {
         return response.status(500).json(objectReturn('Erro ao buscar usuário', error, true, 500));
@@ -35,7 +35,7 @@ class UserController {
       return response.json(objectReturn('Usuário atualizado com sucesso!', {}, false, 201));
     } catch (error) {
       console.log(error);
-      if (error instanceof ErrorReturn) {
+      if (error instanceof ReturnError) {
         return response.status(error.code).json(objectReturn(error.message, error.fields, true, error.code));
       } else {
         return response.status(500).json(objectReturn('Erro interno do servidor', error, true, 500));

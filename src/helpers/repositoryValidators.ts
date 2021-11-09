@@ -1,5 +1,5 @@
 import { ModelCtor } from 'sequelize';
-import ErrorReturn from './errorReturn';
+import { ReturnError } from './returnError';
 
 export class RepositoryValidators {
   constructor (private model: ModelCtor<any>) {
@@ -14,7 +14,7 @@ export class RepositoryValidators {
       }
     };
     if (invalidFields.length) {
-      throw new ErrorReturn(400, message, invalidFields);
+      throw new ReturnError(400, message, invalidFields);
     }
   }
 
@@ -31,7 +31,7 @@ export class RepositoryValidators {
       }
     };
     if (invalidFields.length) {
-      throw new ErrorReturn(400, message, invalidFields);
+      throw new ReturnError(400, message, invalidFields);
     }
   }
 
@@ -44,7 +44,7 @@ export class RepositoryValidators {
       }
     };
     if (invalidFields.length) {
-      throw new ErrorReturn(400, message, invalidFields);
+      throw new ReturnError(400, message, invalidFields);
     }
   }
 }

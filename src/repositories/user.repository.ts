@@ -1,4 +1,4 @@
-import ErrorReturn from 'src/helpers/errorReturn';
+import { ReturnError } from 'src/helpers/returnError';
 import { cryptography } from 'src/helpers/cryptography';
 import { RepositoryValidators } from 'src/helpers/repositoryValidators';
 
@@ -9,7 +9,7 @@ class UserRespository extends RepositoryValidators {
   public async findUserById (id: number): Promise<UserDto> {
     const user = await Models.User.findByPk(id);
     if (!user) {
-      throw new ErrorReturn(404, 'Erro ao buscar usuário', [
+      throw new ReturnError(404, 'Erro ao buscar usuário', [
         {
           field: 'id',
           message: 'Não existe um usuário com este id'
@@ -25,7 +25,7 @@ class UserRespository extends RepositoryValidators {
       attributes: ['id', 'email', 'password', 'name']
     });
     if (!user) {
-      throw new ErrorReturn(404, message, [
+      throw new ReturnError(404, message, [
         {
           field: 'email',
           message: 'Não existe um usuário com este email'
@@ -43,7 +43,7 @@ class UserRespository extends RepositoryValidators {
       attributes: ['id']
     });
     if (emailAlreadyInUse) {
-      throw new ErrorReturn(400, message, [
+      throw new ReturnError(400, message, [
         {
           message: 'Este email ja está em uso',
           field: 'email'
@@ -55,7 +55,7 @@ class UserRespository extends RepositoryValidators {
   public async get (id: number): Promise<UserDto> {
     const user = await Models.User.findByPk(id);
     if (!user) {
-      throw new ErrorReturn(404, 'Erro ao buscar usuário', [
+      throw new ReturnError(404, 'Erro ao buscar usuário', [
         {
           field: 'id',
           message: 'Não existe um usuário com este id'

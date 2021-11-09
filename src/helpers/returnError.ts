@@ -9,7 +9,7 @@ interface ErrorReturnInterface {
     fields?: ErrorFieldInterface[]
 }
 
-export default class ErrorReturn implements ErrorReturnInterface {
+export class ReturnError implements ErrorReturnInterface {
   code: number;
   message: string;
   fields: ErrorFieldInterface[]
