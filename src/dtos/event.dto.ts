@@ -5,7 +5,7 @@ export interface EventDto {
   description: string;
   beginEvent: Date;
   endEvent: Date;
-  address: Object;
+  address?: Object;
   createdAt?: Date;
   updatedAt?: Date;
 };
