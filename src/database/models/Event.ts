@@ -57,6 +57,7 @@ export const EventModel = (sequelize: Sequelize) => {
   }) as ModelCtor<EventInstance> & { associate: any };
   event.associate = (models: any) => {
     event.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
+    event.hasMany(models.Ticket, { foreignKey: 'eventId', as: 'tickets' });
   };
   return event;
 };
