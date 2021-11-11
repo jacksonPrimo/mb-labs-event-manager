@@ -26,6 +26,22 @@ class TicketRepository extends RepositoryValidators {
       description: ticket.description,
       beginTicket: ticket.quantity
     }, errorMessage);
+    if (ticket.value <= 0) {
+      throw new ReturnError(400, errorMessage, [
+        {
+          message: 'O valor do bilhete não pode ser negativo ou zero',
+          field: 'value'
+        }
+      ]);
+    }
+    if (ticket.quantity <= 0) {
+      throw new ReturnError(400, errorMessage, [
+        {
+          message: 'A quantidade de bilhetes não pode ser negativo ou zero',
+          field: 'quantity'
+        }
+      ]);
+    }
     const TicketCreated = await Models.Ticket.create(ticket);
     return { id: TicketCreated.id };
   }

@@ -51,6 +51,28 @@ describe('crud pack', () => {
     expect(resp.statusCode).toBe(400);
   });
 
+  test('should fail in ticket create because quantity is zero', async () => {
+    const resp =
+      await supertest(app)
+        .post('/tickets')
+        .send({ ...ticketMock, eventId: eventIdMock, quantity: 0 })
+        .set({ authorization: tokenMock });
+    expect(resp.body.data[0].message).toBe('A quantidade de bilhetes não pode ser negativo ou zero');
+    expect(resp.body.data[0].field).toBe('quantity');
+    expect(resp.statusCode).toBe(400);
+  });
+
+  test('should fail in ticket create because value is negative', async () => {
+    const resp =
+      await supertest(app)
+        .post('/tickets')
+        .send({ ...ticketMock, eventId: eventIdMock, value: -10 })
+        .set({ authorization: tokenMock });
+    expect(resp.body.data[0].message).toBe('O valor do bilhete não pode ser negativo ou zero');
+    expect(resp.body.data[0].field).toBe('value');
+    expect(resp.statusCode).toBe(400);
+  });
+
   test('should update ticket', async () => {
     const resp =
       await supertest(app)
