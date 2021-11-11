@@ -21,6 +21,14 @@ class ReserveController {
         userId: body.reserve.userId,
         ticketId: body.reserve.ticketId
       }, errorMessage);
+      if (body.reserve.quantity <= 0) {
+        throw new ReturnError(400, errorMessage, [
+          {
+            message: 'A quantidade de bilhetes não pode ser negativo ou zero',
+            field: 'quantity'
+          }
+        ]);
+      }
       const ticketFound = await ticketRepository.getTicket(body.reserve.ticketId, errorMessage);
       const currentTicketQuantity = ticketFound.quantity - body.reserve.quantity;
       if (currentTicketQuantity < 0) {
