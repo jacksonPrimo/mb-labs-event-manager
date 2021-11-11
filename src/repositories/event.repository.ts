@@ -39,11 +39,20 @@ class EventRepository extends RepositoryValidators {
   }
 
   public async list (userId: number): Promise<EventDto[]> {
-    return await Models.Event.findAll({
+    const events = await Models.Event.findAll({
       where: {
         userId
       }
     });
+    if (!events.length) {
+      throw new ReturnError(404, 'Erro ao listar eventos!', [
+        {
+          message: 'Eventos não encontrados',
+          field: 'userId'
+        }
+      ]);
+    }
+    return events;
   }
 
   public async delete (eventId: string, userId: number) {
