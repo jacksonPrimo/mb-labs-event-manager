@@ -11,7 +11,8 @@ const userMock = {
 const ticketMock: TicketDto = {
   title: 'bilhete de teste',
   description: 'descrição de um bilhete de teste',
-  quantity: 100
+  quantity: 100,
+  value: 10
 };
 
 let tokenMock: string = null;

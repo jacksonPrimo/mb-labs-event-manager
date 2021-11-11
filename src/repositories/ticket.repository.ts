@@ -4,8 +4,17 @@ import { RepositoryValidators } from 'src/helpers/repositoryValidators';
 import Models from 'src/database/models';
 
 class TicketRepository extends RepositoryValidators {
-  private async getTicket (id: number): Promise<TicketDto> {
-    return await Models.Ticket.findByPk(id);
+  public async getTicket (id: number, errorMessage: string): Promise<TicketDto> {
+    const foundTicket = await Models.Ticket.findByPk(id);
+    if (!foundTicket) {
+      throw new ReturnError(404, errorMessage, [
+        {
+          message: 'bilhete não encontrado',
+          field: 'id'
+        }
+      ]);
+    }
+    return foundTicket;
   }
 
   public async create (ticket: TicketDto): Promise<any> {
@@ -13,6 +22,7 @@ class TicketRepository extends RepositoryValidators {
     this.verifyRequiredFields({
       eventId: ticket.eventId,
       title: ticket.title,
+      value: ticket.value,
       description: ticket.description,
       beginTicket: ticket.quantity
     }, errorMessage);
@@ -23,33 +33,17 @@ class TicketRepository extends RepositoryValidators {
   public async update (ticket: TicketDto, id: string): Promise<void> {
     const errorMessage = 'Erro ao atualizar bilhete!';
     this.verifyNullFields(ticket, errorMessage);
-    const foundTicket = this.getTicket(Number(id));
-    if (!foundTicket) {
-      throw new ReturnError(404, errorMessage, [
-        {
-          message: 'bilhete não encontrado',
-          field: 'id'
-        }
-      ]);
-    }
+    await this.getTicket(+id, errorMessage);
     await Models.Ticket.update(ticket, {
       where: { id }
     });
   }
 
-  public async delete (TicketId: string) {
-    const foundTicket = this.getTicket(Number(TicketId));
-    if (!foundTicket) {
-      throw new ReturnError(404, 'Erro ao apagar bilhete!', [
-        {
-          message: 'bilhete não encontrado',
-          field: 'id'
-        }
-      ]);
-    }
+  public async delete (ticketId: string) {
+    await this.getTicket(+ticketId, 'Erro ao deletar bilhete');
     return await Models.Ticket.destroy({
       where: {
-        id: TicketId
+        id: ticketId
       }
     });
   }

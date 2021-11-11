@@ -36,6 +36,11 @@ export const TicketModel = (sequelize: Sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    value: {
+      type: DataTypes.DOUBLE,
+      allowNull: false,
+      defaultValue: 0
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false
@@ -49,6 +54,7 @@ export const TicketModel = (sequelize: Sequelize) => {
   }) as ModelCtor<TicketInstance> & { associate: any };
   ticket.associate = (models: any) => {
     ticket.belongsTo(models.Event, { foreignKey: 'eventId', as: 'event' });
+    ticket.hasMany(models.Reserve, { foreignKey: 'ticketId', as: 'reserves' });
   };
   return ticket;
 };
