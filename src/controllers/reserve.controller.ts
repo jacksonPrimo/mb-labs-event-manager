@@ -15,7 +15,7 @@ class ReserveController {
     body.reserve.userId = id;
     body.reserve.id = new Date().getTime();
     try {
-      const errorMessage = 'Erro ao cadastrar bilhete';
+      const errorMessage = 'Erro ao solicitar uma reserva';
       reserveRepository.verifyRequiredFields({
         quantity: body.reserve.quantity,
         userId: body.reserve.userId,
@@ -81,7 +81,7 @@ class ReserveController {
         const currentTicketQuantity = reserve.ticket.quantity + reserve.quantity;
         await ticketRepository.update({ quantity: currentTicketQuantity } as any, reserve.ticket.id);
       }
-      return response.status(200).json(objectReturn('reserva atualizada com sucesso', [], false, 200));
+      return response.status(200).json(objectReturn('Reserva atualizada com sucesso', [], false, 200));
     } catch (error) {
       console.log(error);
       if (error instanceof ReturnError) {
